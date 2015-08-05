@@ -1,0 +1,17 @@
+consul:
+  image: progrium/consul
+  command: -server -bootstrap -ui-dir /ui
+  ports:
+  - "8500:8500"
+
+frontend:
+  build: consul-template-nginx
+  ports:
+  - "8080:80"
+  links:
+  - "consul:consul"
+
+webapp:
+  build: webapp
+  links:
+  - "consul:consul"
